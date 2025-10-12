@@ -97,5 +97,5 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
-/GPU-CG/Project/GPU-CG/Library*
-/GPU-CG/Project/GPU-CG/Packages*
+/Graphics/Project/UnityShaderEntry/Library*
+/Graphics/Project/UnityShaderEntry/Packages*
