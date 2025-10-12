@@ -99,3 +99,5 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 /Graphics/Project/UnityShaderEntry/Library*
 /Graphics/Project/UnityShaderEntry/Packages*
+/Graphics/Project/UnityShaderEntry/.idea*
+/Graphics/Project/UnityShaderEntry/obj*
