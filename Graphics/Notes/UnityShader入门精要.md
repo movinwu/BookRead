@@ -323,3 +323,77 @@ Fallback Off
 使用这个语义可以对UnityShader中的命令进行分组。  
 
 
+
+## 3. UnityShader中的内置变量
+
+### 3.1 变换矩阵
+
+* UNITY_MATRIX_MVP             将顶点、方向矢量从模型空间变换到裁剪空间（已封装为UnityObjectToClipPos函数）
+
+* UNITY_MATRIX_MV               将顶点、方向矢量从模型空间变换到观察空间
+
+* UNITY_MATRIX_V                  将顶点、方向矢量从世界空间变换到观察空间
+
+* UNITY_MATRIX_P                  将顶点、方向矢量从观察空间变换到裁剪空间
+
+* UNITY_MATRIX_VP                将顶点、方向矢量从世界空间变换到裁剪空间
+
+* UNITY_MATRIX_T_MV           UNITY_MATRIX_MV的转置矩阵
+
+* UNITY_MATRIX_IT_MV          UNITY_MATRIX_MV的逆转置矩阵，用于将法线从模型空间变换到观察空间，也可用于得到UNITY_MATRIX_MV的逆矩阵
+
+* _0bject2World                       用于将顶点、方向矢量从模型空间变换到世界空间
+
+* _Woeld2Object                      用于将顶点、方向矢量从世界空间变换到模型空间
+
+### 3.2 摄像机和屏幕参数
+
+* _WorldSpaceCameraPos     float3类型，该摄像机在世界空间中的坐标
+
+* _ProjectionParams               float4类型，x=1.0， y=Near，z = Far，w=1.0 + 1.0/Far，其中Near和Far分别是摄像机和近、远裁剪平面的距离
+
+* _ScreenParams                     float4类型，x=width， y= height， z=1.0 + 1.0/width， w=1.0 + 1.0/height，其中width和height分别是该摄像机的渲染目标的像素宽度和高度
+
+* _ZBufferParams                    float4类型，x=1-Far/Near,y=Far/Near,z=x/Far,w=y/Far，该变量用于线性化Z缓存中的深度值
+
+* unity_OrthoParams             flaot4类型，x=width,y=height,z没有定义,w=1.0（正交投影）或w=0（透视投影），其中width和height时正交投影摄像机的宽度和高度
+
+* unity_CameraProjection     float4*4，该摄像机的投影矩阵
+
+* unity_CameraInvProjection     float4*4，该摄像机的投影矩阵的逆矩阵
+
+* unity_CameraWorldClipPlanes[6]      float4类型，该摄像机的6个裁剪平面在世界空间下的等式，按照左、右、上、下、近、远裁剪平面
+
+
+
+## 4. unity shader支持的语义
+
+注意：SV_开头的语义为系统数值语义（System Value），渲染流水线需要这些语义的数据完成特定操作。
+
+### 4.1 应用阶段给顶点着色器传递数据时的常用语义
+
+* POSITION，通常float4类型，代表模型空间中的世界坐标
+
+* NORMAL，通常float3类型，代表顶点法线
+
+* TANGENT，通常float4类型，代表顶点切线
+
+* TEXCOORDn，通常float2或float4类型，代表第n组纹理坐标
+
+* COLOR，通常fixed4或float4类型，代表顶点颜色
+
+## 4.2 顶点着色器阶段到片元着色器阶段的常用语义
+
+* SV_POSITION，裁剪空间中的顶点坐标，结构体中必须包含一个用该语义修饰的变量。
+
+* COLOR0，通常用于输出第一组顶点颜色，非必须
+
+* COLOR1，通常用于输出第二组顶点颜色，非必须
+
+* TEXCOORD0~TEXCOORD7，通常用于输出纹理坐标，非必须
+
+## 4.3 片元着色器的输出语义
+
+* SV_Target，输出值将会存储到渲染目标中
+
+
