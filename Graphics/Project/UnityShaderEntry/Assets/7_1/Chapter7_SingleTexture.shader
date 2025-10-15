@@ -32,6 +32,7 @@ Shader "Unity Shader Book/Chapter 7/SingleTexture"
             fixed4 _Specular;
             float _Gloss;
             sampler2D _MainTex;
+            // 特殊的向量，向量名为 纹理名_ST，对应了纹理的缩放和偏移，其中，xy值为缩放（Tiling），zw值为偏移（Offset）
             float4 _MainTex_ST;
             fixed4 _Color;
 
@@ -77,20 +78,20 @@ Shader "Unity Shader Book/Chapter 7/SingleTexture"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                // 纹理颜色参与环境光计算
-                fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
-                
-                // 环境光部分
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
-
                 // 世界法线
                 fixed3 worldNormal = normalize(i.worldNormal);
                 // 世界光线
                 // fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
                 fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
                 
+                // 纹理颜色参与环境光计算
+                fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
+                
+                // 环境光部分
+                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+
                 // 漫反射部分
-                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * (dot(worldNormal, worldLightDir) * 0.5 + 0.5);
+                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * albedo * max(dot(worldNormal, worldLightDir), 0);
 
                 // 世界坐标的视线
                 // fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
@@ -99,9 +100,10 @@ Shader "Unity Shader Book/Chapter 7/SingleTexture"
                 fixed3 halfDir = normalize(worldLightDir + viewDir);
 
                 // 高光部分
-                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(dot(worldNormal, halfDir) * 0.5 + 0.5, _Gloss);
+                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(dot(worldNormal, halfDir), 0), _Gloss);
 
                 return fixed4(ambient + diffuse + specular, 1.0);
+                // return fixed4(albedo + specular, 1.0);
             }
             ENDCG
         }

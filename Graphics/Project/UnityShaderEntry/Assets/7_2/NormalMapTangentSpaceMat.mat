@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SingleTexture
-  m_Shader: {fileID: 4800000, guid: 144f3ce062af058468f9539ecfdb3c85, type: 3}
+  m_Name: NormalMapTangentSpaceMat
+  m_Shader: {fileID: 4800000, guid: 51b5636243051a148ac524d92df14a01, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -58,7 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BumpScale: 1
+    - _BumpScale: -0.84
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
